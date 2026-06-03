@@ -1,0 +1,11 @@
+.leaflet-zoom-animated {
+  transition-timing-function: linear;
+}
+
+.leaflet-pane svg {
+  shape-rendering: geometricPrecision;
+}
+
+.leaflet-interactive {
+  vector-effect: non-scaling-stroke;
+}
