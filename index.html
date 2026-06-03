@@ -89,6 +89,7 @@ fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
 .then(data=>{
 
   let layers=[];
+  let remainingLayers=[];
 
   const geo = L.geoJSON(data,{
 
@@ -109,6 +110,8 @@ fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
     }
 
   }).addTo(map);
+
+  remainingLayers=[...layers];
 
   const btn=document.getElementById("btn");
   const country=document.getElementById("country");
@@ -134,8 +137,11 @@ fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
         });
       });
 
-      currentLayer=
-      layers[Math.floor(Math.random()*layers.length)];
+      const randomIndex =
+Math.floor(Math.random()*remainingLayers.length);
+
+currentLayer =
+remainingLayers[randomIndex];
 
       // 念のため
       if(!currentLayer) return;
@@ -151,6 +157,13 @@ fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
 
       clearInterval(interval);
 
+      remainingLayers =
+remainingLayers.filter(l => l !== currentLayer);
+
+if(remainingLayers.length===0){
+  remainingLayers=[...layers];
+}
+
       // currentLayer が無い時対策
       if(!currentLayer){
         btn.disabled=false;
@@ -161,7 +174,7 @@ fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
       map.fitBounds(
         currentLayer.getBounds(),
         {
-          padding:[120,120],
+          padding:[190,190],
           duration:10
         }
       );
@@ -214,7 +227,7 @@ const countryJP = {
 const name =
 countryJP[englishName] || englishName;
       
-      let sec=10;
+      let sec=5;
 
       count.innerText=sec;
 
